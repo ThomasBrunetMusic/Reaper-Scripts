@@ -1,0 +1,37 @@
+-------------------------------------------------------
+-- This function does nothing and is used to prevent undo history from being created when the script runs
+local function no_undo() reaper.defer(function() end) end
+-------------------------------------------------------
+
+-- Get the active MIDI editor
+local editor = reaper.MIDIEditor_GetActive()
+if not editor then no_undo() return end
+
+-- Get the active take in the MIDI editor
+local take = reaper.MIDIEditor_GetTake(editor)
+if not take then no_undo() return end
+
+-- Get the media item associated with the take
+local item = reaper.GetMediaItemTake_Item(take)
+if not item then no_undo() return end
+
+-- Get the track associated with the media item
+local track = reaper.GetMediaItemTrack(item)
+if not track then no_undo() return end
+
+-- Find the parent track (i.e. the track that the item is on)
+local parent_track = reaper.GetParentTrack(track)
+
+-- Get the index of the instrument plugin on the parent track
+local instrument = reaper.TrackFX_GetInstrument(parent_track)
+if instrument < 0 then no_undo() return end
+
+-- Begin an undo block
+reaper.Undo_BeginBlock()
+
+-- Show the instrument on the parent track
+reaper.TrackFX_SetOpen(parent_track, instrument, true)
+
+-- End the undo block and name it "Show Instrument"
+reaper.Undo_EndBlock("Show Instrument", -1)
+
