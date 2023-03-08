@@ -1,3 +1,13 @@
+--[[
+
+ReaScript Name: Show Instrument on Parent Track
+Author: Redbeard (based on a script by Archie)
+Version: 1.0
+Description: This script opens the instrument on the parent track of the active MIDI editor.
+Instructions: Run the script while in the midi editor, with a child track active.
+
+--]]
+
 -------------------------------------------------------
 -- This function does nothing and is used to prevent undo history from being created when the script runs
 local function no_undo() reaper.defer(function() end) end
