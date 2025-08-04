@@ -29,7 +29,7 @@ if not item then no_undo() return end
 local track = reaper.GetMediaItemTrack(item)
 if not track then no_undo() return end
 
--- Find the parent track (i.e. the track that the item is on)
+-- Find its parent track 
 local parent_track = reaper.GetParentTrack(track)
 
 -- Get the index of the instrument plugin on the parent track
@@ -42,6 +42,6 @@ reaper.Undo_BeginBlock()
 -- Show the instrument on the parent track
 reaper.TrackFX_SetOpen(parent_track, instrument, true)
 
--- End the undo block and name it "Show Instrument"
-reaper.Undo_EndBlock("Show Instrument", -1)
+-- End the undo block and name it "Show Instrument of parent track"
+reaper.Undo_EndBlock("Show Instrument of parent track", -1)
 
